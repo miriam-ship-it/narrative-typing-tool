@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, candidates, InsertCandidate, Candidate } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,73 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Candidate functions
+export async function createCandidate(candidate: InsertCandidate): Promise<Candidate> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const result = await db.insert(candidates).values(candidate);
+  const insertedId = Number(result[0].insertId);
+  
+  const inserted = await db.select().from(candidates).where(eq(candidates.id, insertedId)).limit(1);
+  return inserted[0]!;
+}
+
+export async function getAllCandidates(): Promise<Candidate[]> {
+  const db = await getDb();
+  if (!db) {
+    return [];
+  }
+
+  return await db.select().from(candidates).orderBy(desc(candidates.createdAt));
+}
+
+export async function getCandidateById(id: number): Promise<Candidate | undefined> {
+  const db = await getDb();
+  if (!db) {
+    return undefined;
+  }
+
+  const result = await db.select().from(candidates).where(eq(candidates.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getCandidatesByProfile(profileType: string): Promise<Candidate[]> {
+  const db = await getDb();
+  if (!db) {
+    return [];
+  }
+
+  return await db.select().from(candidates).where(eq(candidates.profileType, profileType as any)).orderBy(desc(candidates.createdAt));
+}
+
+export async function getCandidateStats() {
+  const db = await getDb();
+  if (!db) {
+    return {
+      total: 0,
+      byProfile: {},
+    };
+  }
+
+  const allCandidates = await getAllCandidates();
+  
+  const byProfile: Record<string, number> = {
+    Empath: 0,
+    Pioneer: 0,
+    Mechanist: 0,
+    Collaborator: 0,
+    Nester: 0,
+  };
+
+  allCandidates.forEach(candidate => {
+    byProfile[candidate.profileType] = (byProfile[candidate.profileType] || 0) + 1;
+  });
+
+  return {
+    total: allCandidates.length,
+    byProfile,
+  };
+}
