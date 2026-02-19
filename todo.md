@@ -72,3 +72,13 @@
 - [x] Validação de campos em cada etapa
 - [x] Indicador de progresso visual
 - [x] Sistema de navegação entre etapas
+
+
+## Nova Tarefa - Integração do Algoritmo com Formulário
+- [x] Analisar formulário atual (RecruitmentForm.tsx)
+- [x] Mapear perguntas do formulário com variáveis TT1-TT7
+- [x] Criar lógica de conversão de respostas para formato do algoritmo (algorithmConverter.ts)
+- [x] Criar sistema de cálculo de scores (scoring.ts)
+- [x] Criar testes unitários e validar (scoring.test.ts)
+- [ ] Integrar cálculo automático ao finalizar questionário
+- [ ] Atualizar rotas tRPC para usar novo sistema
