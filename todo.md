@@ -82,3 +82,17 @@
 - [x] Criar testes unitários e validar (scoring.test.ts)
 - [ ] Integrar cálculo automático ao finalizar questionário
 - [ ] Atualizar rotas tRPC para usar novo sistema
+
+
+## Filtros de Elegibilidade
+- [x] Criar funções de validação (eligibilityCheck.ts)
+- [x] Validar idade entre 18-64 anos (calcular a partir da data de nascimento)
+- [x] Validar status de assinatura Netflix (atual ou últimos 6 meses)
+- [x] Validar que não participou de pesquisa de games nos últimos 6 meses
+- [x] Validar que não é streamer ativo
+- [x] Validar que não posta ativamente sobre games em redes sociais
+- [x] Criar tela de desqualificação com mensagem específica por critério (Disqualified.tsx)
+- [x] Criar testes unitários (20 testes passando)
+- [ ] Integrar validações no formulário RecruitmentForm.tsx
+- [ ] Impedir submissão se não atender aos critérios
+- [ ] Adicionar feedback visual durante validação

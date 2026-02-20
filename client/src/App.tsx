@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
+import Disqualified from "@/pages/Disqualified";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -13,6 +14,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/disqualified"} component={Disqualified} />
       <Route path={"/formulario"} component={RecruitmentForm} />
       <Route path={"/resultado/:id"} component={Result} />
       <Route path={"/admin"} component={AdminDashboard} />
